@@ -16,14 +16,15 @@ pub fn string_to_list(s: &String) -> Vec<u32> {
 
 pub fn filter_list(list: Vec<u32>) -> Vec<u32> {
     let len = list.len();
-    let mut value: u32 = list[len - 1];
+    let mut index = len / 2;
     let mut filtered_list: Vec<u32> = Vec::new();
 
-    for i in list {
-        if i == value {
-            filtered_list.push(i);
+    for i in list.iter() {
+        if i == &list[index]{
+            filtered_list.push(*i);
         }
-        value = i;
+
+        index = (index + 1) % len;
     }
 
     filtered_list
@@ -36,29 +37,29 @@ mod tests {
     #[test]
     fn string_to_list_works() {
         let string = String::from("12345");
-        let list   = vec![1,2,3,4,5];
+        let list   = vec![1, 2, 3, 4, 5];
 
         assert_eq!(list, string_to_list(&string))
     }
 
     #[test]
     fn filter_list_works() {
-        let unfiltered = vec![1, 2, 3, 3, 5, 5];
-        let filtered   = vec![3,5];
+        let unfiltered = vec![1, 2, 3, 4, 2, 5];
+        let filtered   = vec![2, 2];
         assert_eq!(filtered, filter_list(unfiltered))
     }
 
     #[test]
     fn filter_list_works_2() {
-        let unfiltered = vec![1,1,1,1];
-        let filtered   = vec![1,1,1,1];
+        let unfiltered = vec![1, 1, 1, 1];
+        let filtered   = vec![1, 1, 1, 1];
         assert_eq!(filtered, filter_list(unfiltered))
     }
 
     #[test]
     fn filter_list_works_circularly() {
-        let unfiltered = vec![9,1,2,9];
-        let filtered   = vec![9];
+        let unfiltered = vec![1, 2, 3, 1, 2, 3];
+        let filtered   = vec![1, 2, 3, 1, 2, 3];
         assert_eq!(filtered, filter_list(unfiltered))
     }
 

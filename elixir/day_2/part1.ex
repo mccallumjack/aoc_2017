@@ -7,6 +7,7 @@ defmodule Runner do
     file
     |> File.stream!
     |> Stream.map(&handle_line/1)
+    |> Stream.map(&filter/1)
     |> Enum.to_list
     |> Enum.sum
   end
@@ -15,6 +16,10 @@ defmodule Runner do
     line
     |> String.split(~r{\s}, trim: true)
     |> Enum.map(&String.to_integer/1)
+  end
+
+  def filter(list) do
+    list
     |> Enum.min_max
     |> range
   end

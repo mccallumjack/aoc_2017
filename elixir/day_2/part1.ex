@@ -15,13 +15,9 @@ defmodule Runner do
     line
     |> String.split(~r{\s}, trim: true)
     |> Enum.map(&String.to_integer/1)
+    |> Enum.min_max
     |> range
   end
 
-  def range([head | tail]), do: range(tail, head, head)
-  def range([], min, max), do: min - max
-  def range([head | tail], min, max) when head > max, do: range(tail, min, head)
-  def range([head | tail], min, max) when head < min, do: range(tail, head, max)
-  def range([_head | tail], min, max), do: range(tail, min, max)
-
+  def range({min, max}), do: max - min
 end

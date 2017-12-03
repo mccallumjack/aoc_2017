@@ -29,3 +29,5 @@ defmodule Runner do
   def first_divisible(num, [_head | tail], orig_list), do: first_divisible(num, tail, orig_list)
   def first_divisible(_num, [], [head | tail]), do: first_divisible(head, tail, tail)
 end
+
+IO.inspect Runner.checksum

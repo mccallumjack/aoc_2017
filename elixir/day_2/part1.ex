@@ -26,3 +26,5 @@ defmodule Runner do
 
   def range({min, max}), do: max - min
 end
+
+IO.inspect Runner.checksum

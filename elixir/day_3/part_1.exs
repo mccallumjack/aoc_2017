@@ -2,17 +2,28 @@ defmodule Runner do
 
   def run(num) do
     matrix = Enum.to_list(1..num) |> wrap
-    print_matrix matrix
+    # print_matrix matrix
     IO.puts distance_to_middle(matrix, num)
   end
 
   def distance_to_middle(matrix, num) do
-    matrix_depth = length(matrix)
-    middle_index = div(matrix_depth, 2)
-    matrix_length = Enum.at(matrix, middle_index)
-    distance_from_middle = abs(length(List.last(matrix)) - matrix_length)
+    {root_x, root_y} = coordinates(matrix, 1)
+    {num_x, num_y} = coordinates(matrix, num)
 
-    distance_from_middle + matrix_length
+    IO.puts root_x
+    IO.puts root_y
+
+    IO.puts num_x
+    IO.puts num_y
+
+    abs(root_x - num_x) + abs(root_y - num_y)
+  end
+
+  def coordinates(matrix, num) do
+    y = Enum.find_index(matrix, fn(l) -> Enum.member?(l, num) end)
+    x = Enum.at(matrix, y) |> Enum.find_index(fn(m) -> m == num end)
+
+    {x, y}
   end
 
   # (direction, list, matrix)
@@ -81,7 +92,7 @@ defmodule Runner do
   end
 
   def print_matrix(matrix) do
-    max_l = List.last(matrix) |> List.last |> Integer.to_string |> String.length
+    max_l = List.flatten(matrix) |> Enum.max |> Integer.to_string |> String.length
 
     for x <- matrix do
       IO.puts Enum.map(x, fn(y) -> Integer.to_string(y) |> String.pad_leading(max_l, " ") end) |> Enum.join("  -  ")
